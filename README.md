@@ -1,46 +1,52 @@
-# Getting Started with Create React App
+# Form Wizard:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The implementation of form wizard: user goes through some steps with forms, filling out user register data.
 
-## Available Scripts
+## Requirements:
 
-In the project directory, you can run:
+- On each step we have button "Next", which becomes enabled only when all required fields values are valid.
+- Showing errors - any way you prefer
 
-### `npm start`
+## Step 1: user enters login and password.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Login must be entered in lowercase - required field
+- Password must be longer than 5 symbols - required field
+- password must contain at least one letter and one number
+- Password symbols must be hidden
+- Additional password confirmation field must be shown to make user verify that the password is right
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Step 2: user chooses subscription type (like on a stream service, e.g. Netflix)
 
-### `npm test`
+- Free option (but card must be attached on the next step anyway)
+- Monthly subscription
+- Yearly subscription
+- User can't skip this step without choosing an option
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Step 3 - user enters personal info
 
-### `npm run build`
+- First name - required
+- Last name - required
+- Middle name - optional field
+- birthdate - optional
+- email - required + check that email is valid
+- gender - make/female (select input) - required
+- User is older than 18 (checkbox) - required
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Step 4 - user enters credit card number
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Card field must have the mask that formats data right, allows only numbers, length, etc. Use this as an example https://nosir.github.io/cleave.js/ - choose any format you prefer
+- This field is required
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Step 5 - The consent to personal data processing
 
-### `npm run eject`
+- Show login and email user entered before - disabled, can't be updated
+- The consent to personal data processing (checkbox) - required
+- Site uses cookie agreement (checkbox) - required
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Final step
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- show all fields user entered on previous steps
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Libraries/technologies:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Data storage: your preference - state manager, or RxJS, or React Context, props. Your choice should be agrumented during the call with your mentor.
