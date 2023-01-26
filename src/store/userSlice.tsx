@@ -17,13 +17,17 @@ interface PersonalInfoInterface {
   isAdult: boolean;
 }
 
+interface AgreementsInterface {
+  isAgreePersonalData: boolean;
+  isAgreeCookiePolicy: boolean;
+}
+
 interface UserState {
   login: LoginInterface;
   subscription: Subscription;
   personalInfo: PersonalInfoInterface;
   creditCard: string;
-  isAgreePersonalData: boolean;
-  isAgreeCookiePolicy: boolean;
+  agreements: AgreementsInterface;
 }
 
 const initialState: UserState = {
@@ -42,8 +46,10 @@ const initialState: UserState = {
     isAdult: false,
   },
   creditCard: '',
-  isAgreePersonalData: false,
-  isAgreeCookiePolicy: false,
+  agreements: {
+    isAgreePersonalData: false,
+    isAgreeCookiePolicy: false,
+  },
 };
 
 export const userSlice = createSlice({
@@ -53,8 +59,30 @@ export const userSlice = createSlice({
     storeLogin: (state, action: PayloadAction<LoginInterface>) => {
       state.login = action.payload;
     },
+    storeSubscription: (state, action: PayloadAction<Subscription>) => {
+      state.subscription = action.payload;
+    },
+    storePersonalInfo: (
+      state,
+      action: PayloadAction<PersonalInfoInterface>
+    ) => {
+      state.personalInfo = action.payload;
+    },
+    storeCreditCard: (state, action: PayloadAction<string>) => {
+      state.creditCard = action.payload;
+    },
+    storeAgreements: (state, action: PayloadAction<AgreementsInterface>) => {
+      state.agreements = action.payload;
+    },
   },
 });
 
-export const { storeLogin } = userSlice.actions;
+export const {
+  storeLogin,
+  storeSubscription,
+  storePersonalInfo,
+  storeCreditCard,
+  storeAgreements,
+} = userSlice.actions;
+
 export default userSlice.reducer;

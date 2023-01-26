@@ -1,17 +1,31 @@
-import React from 'react';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import React, { useState } from 'react';
+import { useAppDispatch } from '../store/hooks';
 import { increment } from '../store/stepsSlice';
+import { storeSubscription } from '../store/userSlice';
+import { Subscription } from '../types';
 
 function Step2() {
+  const [subscription, setSubscription] = useState<Subscription>('free');
   const dispatch = useAppDispatch();
-  console.log(useAppSelector((state) => state.user));
+
+  function handleClick() {
+    dispatch(storeSubscription(subscription));
+    dispatch(increment());
+  }
 
   return (
     <>
       <h2>Subscription:</h2>
       <div className="radio-group">
         <label htmlFor="free">
-          <input type="radio" value="free" checked />
+          <input
+            type="radio"
+            value="free"
+            id="free"
+            name="subscription"
+            checked={subscription === 'free'}
+            onChange={(e) => setSubscription(e.target.value as Subscription)}
+          />
           Free
         </label>
         <label htmlFor="monthly">
@@ -20,16 +34,25 @@ function Step2() {
             id="monthly"
             name="subscription"
             value="monthly"
+            checked={subscription === 'monthly'}
+            onChange={(e) => setSubscription(e.target.value as Subscription)}
           />
           Monthly
         </label>
 
         <label htmlFor="yearly">
-          <input type="radio" id="yearly" name="subscription" value="yearly" />
+          <input
+            type="radio"
+            id="yearly"
+            name="subscription"
+            value="yearly"
+            checked={subscription === 'yearly'}
+            onChange={(e) => setSubscription(e.target.value as Subscription)}
+          />
           Yearly
         </label>
       </div>
-      <button type="button" onClick={() => dispatch(increment())}>
+      <button type="button" onClick={handleClick}>
         Next
       </button>
     </>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppDispatch } from '../store/hooks';
 import { increment } from '../store/stepsSlice';
 import { storeLogin } from '../store/userSlice';
 

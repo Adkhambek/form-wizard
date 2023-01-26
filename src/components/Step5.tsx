@@ -1,15 +1,31 @@
-import React from 'react';
-import { useAppDispatch } from '../store/hooks';
+import React, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { increment } from '../store/stepsSlice';
+import { storeAgreements } from '../store/userSlice';
 
 function Step5() {
+  const [isAgreePersonalData, setPersonalData] = useState(false);
+  const [isAgreeCookiePolicy, setCookie] = useState(false);
+
+  const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+
+  function handleClick() {
+    dispatch(storeAgreements({ isAgreeCookiePolicy, isAgreePersonalData }));
+    dispatch(increment());
+  }
 
   return (
     <>
       <label htmlFor="login">
         Login:
-        <input type="text" id="login" name="login" value="Adham" disabled />
+        <input
+          type="text"
+          id="login"
+          name="login"
+          value={user.login.username}
+          disabled
+        />
       </label>
       <label htmlFor="email">
         Email:
@@ -17,21 +33,33 @@ function Step5() {
           type="email"
           id="email"
           name="email"
-          value="muzaffarov.adah@gmail.com"
+          value={user.personalInfo.email}
           disabled
         />
       </label>
 
       <label htmlFor="personalData" className="checkbox-label">
-        <input type="checkbox" name="consentCookie" required />I give my consent
-        to the processing of my personal data
+        <input
+          type="checkbox"
+          checked={isAgreePersonalData}
+          onChange={(e) => setPersonalData(e.target.checked)}
+          name="consentCookie"
+          required
+        />
+        I give my consent to the processing of my personal data
       </label>
 
       <label htmlFor="cookie" className="checkbox-label">
-        <input type="checkbox" name="consentCookie" required />I accept the
-        site&apos;s cookie policy
+        <input
+          type="checkbox"
+          checked={isAgreeCookiePolicy}
+          onChange={(e) => setCookie(e.target.checked)}
+          name="consentCookie"
+          required
+        />
+        I accept the site&apos;s cookie policy
       </label>
-      <button type="button" onClick={() => dispatch(increment())}>
+      <button type="button" onClick={handleClick}>
         Next
       </button>
     </>

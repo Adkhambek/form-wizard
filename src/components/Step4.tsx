@@ -1,17 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Cleave from 'cleave.js/react';
 import { useAppDispatch } from '../store/hooks';
 import { increment } from '../store/stepsSlice';
+import { storeCreditCard } from '../store/userSlice';
 
 function Step4() {
+  const [creditCard, setCreditCard] = useState('');
   const dispatch = useAppDispatch();
+
+  function handleClick() {
+    dispatch(storeCreditCard(creditCard));
+    dispatch(increment());
+  }
 
   return (
     <>
-      <label htmlFor="creditCard">
-        Credit Card Number:
-        <input type="text" id="creditCard" name="creditCard" required />
-      </label>
-      <button type="button" onClick={() => dispatch(increment())}>
+      <Cleave
+        type="text"
+        id="creditCard"
+        name="creditCard"
+        value={creditCard}
+        placeholder="Enter your credit card number"
+        options={{ creditCard: true }}
+        onChange={(e) => setCreditCard(e.target.value)}
+      />
+      <button type="button" onClick={handleClick}>
         Next
       </button>
     </>
