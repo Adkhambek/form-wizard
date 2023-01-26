@@ -1,6 +1,5 @@
 import React from 'react';
 import Step from './Step';
-import Button from './Button';
 
 function App() {
   return (
@@ -10,7 +9,6 @@ function App() {
         <form id="formWizard">
           <div className="step">
             <Step />
-            <Button />
           </div>
         </form>
       </div>

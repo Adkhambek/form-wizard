@@ -1,6 +1,11 @@
 import React from 'react';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { increment } from '../store/stepsSlice';
 
 function Step2() {
+  const dispatch = useAppDispatch();
+  console.log(useAppSelector((state) => state.user));
+
   return (
     <>
       <h2>Subscription:</h2>
@@ -24,6 +29,9 @@ function Step2() {
           Yearly
         </label>
       </div>
+      <button type="button" onClick={() => dispatch(increment())}>
+        Next
+      </button>
     </>
   );
 }

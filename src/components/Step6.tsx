@@ -18,6 +18,9 @@ function Step6() {
           <b>Firstname:</b> Adham
         </li>
       </ul>
+      <button type="button" onClick={() => window.location.reload()}>
+        Confirm
+      </button>
     </>
   );
 }

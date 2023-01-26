@@ -1,6 +1,10 @@
 import React from 'react';
+import { useAppDispatch } from '../store/hooks';
+import { increment } from '../store/stepsSlice';
 
 function Step5() {
+  const dispatch = useAppDispatch();
+
   return (
     <>
       <label htmlFor="login">
@@ -27,6 +31,9 @@ function Step5() {
         <input type="checkbox" name="consentCookie" required />I accept the
         site&apos;s cookie policy
       </label>
+      <button type="button" onClick={() => dispatch(increment())}>
+        Next
+      </button>
     </>
   );
 }

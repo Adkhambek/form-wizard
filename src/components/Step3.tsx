@@ -1,6 +1,10 @@
 import React from 'react';
+import { useAppDispatch } from '../store/hooks';
+import { increment } from '../store/stepsSlice';
 
 function Step3() {
+  const dispatch = useAppDispatch();
+
   return (
     <>
       <label htmlFor="firstName">
@@ -35,6 +39,9 @@ function Step3() {
       <label htmlFor="over18">
         <input type="checkbox" id="over18" name="over18" required />I am over 18
       </label>
+      <button type="button" onClick={() => dispatch(increment())}>
+        Next
+      </button>
     </>
   );
 }
