@@ -14,7 +14,7 @@ function Step2() {
   }
 
   return (
-    <>
+    <form>
       <h2>Subscription:</h2>
       <div className="radio-group">
         <label htmlFor="free">
@@ -55,7 +55,7 @@ function Step2() {
       <button type="button" onClick={handleClick}>
         Next
       </button>
-    </>
+    </form>
   );
 }
 

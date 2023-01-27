@@ -6,11 +6,11 @@ function App() {
     <>
       <h1>Form Wizard</h1>
       <div className="form-container">
-        <form id="formWizard">
+        <div id="formWizard">
           <div className="step">
             <Step />
           </div>
-        </form>
+        </div>
       </div>
     </>
   );

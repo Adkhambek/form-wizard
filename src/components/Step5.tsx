@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { increment } from '../store/stepsSlice';
 import { storeAgreements } from '../store/userSlice';
+import { AgreementsInterface } from '../types';
 
 function Step5() {
-  const [isAgreePersonalData, setPersonalData] = useState(false);
-  const [isAgreeCookiePolicy, setCookie] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AgreementsInterface>();
 
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
-  function handleClick() {
-    dispatch(storeAgreements({ isAgreeCookiePolicy, isAgreePersonalData }));
+  function onSubmit(data: AgreementsInterface) {
+    dispatch(storeAgreements(data));
     dispatch(increment());
   }
 
   return (
-    <>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <label htmlFor="login">
         Login:
         <input
@@ -41,28 +46,26 @@ function Step5() {
       <label htmlFor="personalData" className="checkbox-label">
         <input
           type="checkbox"
-          checked={isAgreePersonalData}
-          onChange={(e) => setPersonalData(e.target.checked)}
-          name="consentCookie"
-          required
+          {...register('isAgreePersonalData', { required: true })}
         />
         I give my consent to the processing of my personal data
       </label>
+      {errors.isAgreePersonalData && (
+        <p className="error-message">You did not agree</p>
+      )}
 
       <label htmlFor="cookie" className="checkbox-label">
         <input
           type="checkbox"
-          checked={isAgreeCookiePolicy}
-          onChange={(e) => setCookie(e.target.checked)}
-          name="consentCookie"
-          required
+          {...register('isAgreeCookiePolicy', { required: true })}
         />
         I accept the site&apos;s cookie policy
       </label>
-      <button type="button" onClick={handleClick}>
-        Next
-      </button>
-    </>
+      {errors.isAgreeCookiePolicy && (
+        <p className="error-message">You did not agree</p>
+      )}
+      <button type="submit">Next</button>
+    </form>
   );
 }
 

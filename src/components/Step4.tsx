@@ -6,15 +6,23 @@ import { storeCreditCard } from '../store/userSlice';
 
 function Step4() {
   const [creditCard, setCreditCard] = useState('');
+  const [error, setError] = useState(false);
+
   const dispatch = useAppDispatch();
 
   function handleClick() {
+    if (!creditCard) {
+      setError(true);
+      return;
+    }
+    setError(false);
+
     dispatch(storeCreditCard(creditCard));
     dispatch(increment());
   }
 
   return (
-    <>
+    <form>
       <Cleave
         type="text"
         id="creditCard"
@@ -24,10 +32,13 @@ function Step4() {
         options={{ creditCard: true }}
         onChange={(e) => setCreditCard(e.target.value)}
       />
+      {error && (
+        <p className="error-message">The CreditCard field is required</p>
+      )}
       <button type="button" onClick={handleClick}>
         Next
       </button>
-    </>
+    </form>
   );
 }
 

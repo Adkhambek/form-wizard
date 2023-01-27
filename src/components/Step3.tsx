@@ -1,115 +1,95 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '../store/hooks';
 import { increment } from '../store/stepsSlice';
 import { storePersonalInfo } from '../store/userSlice';
-import { PersonalInfoInterface, Gender } from '../types';
+import { PersonalInfoInterface } from '../types';
 
 function Step3() {
-  const initialValue: PersonalInfoInterface = {
-    firstName: '',
-    lastName: '',
-    middleName: '',
-    birthday: '',
-    email: '',
-    gender: 'male',
-    isAdult: false,
-  };
-
-  const [values, setValues] = useState<PersonalInfoInterface>(initialValue);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<PersonalInfoInterface>();
 
   const dispatch = useAppDispatch();
 
-  function handleClick() {
-    dispatch(storePersonalInfo(values));
-
+  function onSubmit(data: PersonalInfoInterface) {
+    dispatch(storePersonalInfo(data));
     dispatch(increment());
   }
 
   return (
-    <>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <label htmlFor="firstName">
         First Name:
         <input
           type="text"
           id="firstName"
-          value={values.firstName}
-          name="firstName"
-          onChange={(e) => setValues({ ...values, firstName: e.target.value })}
-          required
+          {...register('firstName', { required: true })}
         />
+        {errors.firstName && (
+          <p className="error-message">The FirstName field is required</p>
+        )}
       </label>
       <label htmlFor="lastName">
         Last Name:
         <input
           type="text"
           id="lastName"
-          value={values.lastName}
-          name="lastName"
-          onChange={(e) => setValues({ ...values, lastName: e.target.value })}
-          required
+          {...register('lastName', { required: true })}
         />
+        {errors.lastName && (
+          <p className="error-message">The LastName field is required</p>
+        )}
       </label>
       <label htmlFor="middleName">
         Middle Name:
-        <input
-          type="text"
-          id="middleName"
-          value={values.middleName}
-          name="middleName"
-          onChange={(e) => setValues({ ...values, middleName: e.target.value })}
-        />
+        <input type="text" id="middleName" {...register('middleName')} />
       </label>
       <label htmlFor="birthdate">
         Birthdate:
-        <input
-          type="date"
-          id="birthdate"
-          value={values.birthday}
-          name="birthdate"
-          onChange={(e) => setValues({ ...values, birthday: e.target.value })}
-        />
+        <input type="date" id="birthdate" {...register('birthday')} />
       </label>
       <label htmlFor="email">
         Email:
         <input
           type="email"
           id="email"
-          value={values.email}
-          name="email"
-          onChange={(e) => setValues({ ...values, email: e.target.value })}
-          required
+          {...register('email', {
+            required: true,
+            pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/g,
+          })}
         />
+        {errors.email && errors.email.type === 'required' && (
+          <p className="error-message">The Email field is required</p>
+        )}
+        {errors.email && errors.email.type === 'pattern' && (
+          <p className="error-message">The Email is not valid</p>
+        )}
       </label>
       <label htmlFor="gender">
         Gender:
-        <select
-          id="gender"
-          name="gender"
-          value={values.gender}
-          onChange={(e) =>
-            setValues({ ...values, gender: e.target.value as Gender })
-          }
-          required>
+        <select id="gender" {...register('gender', { required: true })}>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
+        {errors.gender && (
+          <p className="error-message">The Gender field is required</p>
+        )}
       </label>
 
       <label htmlFor="over18">
         <input
           type="checkbox"
           id="over18"
-          checked={values.isAdult}
-          name="over18"
-          onChange={(e) => setValues({ ...values, isAdult: e.target.checked })}
-          required
+          {...register('isAdult', { required: true })}
         />
         I am over 18
       </label>
-      <button type="button" onClick={handleClick}>
-        Next
-      </button>
-    </>
+      {errors.isAdult && <p className="error-message">You are under 18</p>}
+      <button type="submit">Next</button>
+    </form>
   );
 }
 
